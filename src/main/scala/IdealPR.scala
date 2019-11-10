@@ -35,7 +35,7 @@ def main(args: Array[String]){
         }
         
         if(taxation){
-            ranks =  tempRank.reduceByKey(_ + _).mapValues(0.15 + 0.85 * _)
+            ranks =  tempRank.reduceByKey(_ + _).mapValues( (0.15/NUM_OF_TOTAL_PAGES) + 0.85 * _)
         } else {
             ranks  = tempRank.reduceByKey(_ + _) 
         }
