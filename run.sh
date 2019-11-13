@@ -2,7 +2,7 @@
 
 INPUT="hdfs://nashville:30841/cs435/pagerank/links/*"
 TITLE="hdfs://nashville:30841/cs435/pagerank/titles/*"
-OUTPUT="hdfs://nashville:30841/cs435/pagerank/TaxationResults"
+OUTPUT="hdfs://nashville:30841/cs435/pagerank/TaxationResultsT"
 TAXATION="yeet"
 
 sbt package
