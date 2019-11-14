@@ -1,6 +1,7 @@
 import scala.util.{Try, Success, Failure}
 import org.apache.spark.sql.{Row, SparkSession, SQLContext}
 import org.apache.spark.SparkContext
+import org.apache.spark.HashPartitioner
 import org.apache.spark.rdd.RDD
 
 object IdealPR {
@@ -20,6 +21,7 @@ object IdealPR {
         
         //Split the input file so we have the file with links associated with it
         val links = input.map(s => (s.split(": ")(0), s.split(": ")(1).split(" +")))
+        //links.partitionBy(new HashPartitioner(100)).persist()
         
         //Count total number of pages in corpus
         val NUM_OF_TOTAL_PAGES = links.count
@@ -51,11 +53,20 @@ object IdealPR {
         bestRanks.rdd.saveAsTextFile(args(2))
         //bestRanks.rdd.saveAsTextFile(args(2))
         //Get the titles
+        //val bestRanks = ranks.coalesce(1).sortBy(_._2, false).zipWithIndex.filter{ case(_, indx) => (indx < 10) }.keys.persist()
+        //val rankID = bestRanks.map(x => x._1).collect()
+        
+        //val titles = sc.textFile(args(1)).zipWithIndex().mapValues(x => x+1).map(_.swap).filter{ case(k,v) => (rankID.contains(k.toString)) }
+
+        //val finalTitles = titles.map( x => (x._1.toString, x._2))
+        //val combined = finalTitles.join(bestRanks).map{ case(k, (ls, rs)) => (k, ls, rs) }.sortBy(_._3, false).coalesce(1)
+        //combined.saveAsTextFile(args(2))
         
         //Join the titles with ranks
         //val combined = titles.join(bestRanks, Seq("ID")).sort($"RANK".desc)
         //combined
 
-        spark.stop()
+     //ROCKY MOUNTAIN -- 4290746
+     spark.stop()
     }
 }
